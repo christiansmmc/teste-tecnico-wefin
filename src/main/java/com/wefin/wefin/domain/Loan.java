@@ -11,20 +11,25 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
 @Table(name = "loan")
 @Getter
 @Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder(toBuilder = true)
 public class Loan {
 
     @Id
@@ -32,7 +37,7 @@ public class Loan {
     private UUID id;
 
     @Column(name = "loan_value")
-    private BigDecimal loan_value;
+    private BigDecimal loanValue;
 
     @Column(name = "installments_total")
     private Long installmentsTotal;
@@ -46,4 +51,29 @@ public class Loan {
 
     @ManyToOne
     private Person person;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Loan loan = (Loan) o;
+
+        if (!Objects.equals(id, loan.id)) return false;
+        if (!Objects.equals(loanValue, loan.loanValue)) return false;
+        if (!Objects.equals(installmentsTotal, loan.installmentsTotal))
+            return false;
+        if (paymentStatus != loan.paymentStatus) return false;
+        return Objects.equals(createdDate, loan.createdDate);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (loanValue != null ? loanValue.hashCode() : 0);
+        result = 31 * result + (installmentsTotal != null ? installmentsTotal.hashCode() : 0);
+        result = 31 * result + (paymentStatus != null ? paymentStatus.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        return result;
+    }
 }

@@ -3,7 +3,7 @@ package com.wefin.wefin.util;
 public class StringUtils {
 
     public static String removeAllExceptNumber(String str) {
-        if (str.isEmpty()) {
+        if (str == null || str.isEmpty()) {
             return "";
         }
 

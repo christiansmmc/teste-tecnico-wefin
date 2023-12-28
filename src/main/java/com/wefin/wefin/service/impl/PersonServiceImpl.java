@@ -7,6 +7,7 @@ import com.wefin.wefin.exception.IdentifierTypeNotImplementedException;
 import com.wefin.wefin.repository.PersonRepository;
 import com.wefin.wefin.service.PersonService;
 import com.wefin.wefin.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,6 +19,16 @@ public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository repository;
 
+    private static final BigDecimal EU_MIN_INSTALLMENT_VALUE = BigDecimal.valueOf(100);
+    private static final BigDecimal PF_MIN_INSTALLMENT_VALUE = BigDecimal.valueOf(300);
+    private static final BigDecimal AP_MIN_INSTALLMENT_VALUE = BigDecimal.valueOf(400);
+    private static final BigDecimal PJ_MIN_INSTALLMENT_VALUE = BigDecimal.valueOf(1000);
+    private static final BigDecimal EU_MAX_LOAN_VALUE = BigDecimal.valueOf(10000);
+    private static final BigDecimal PF_MAX_LOAN_VALUE = BigDecimal.valueOf(10000);
+    private static final BigDecimal AP_MAX_LOAN_VALUE = BigDecimal.valueOf(25000);
+    private static final BigDecimal PJ_MAX_LOAN_VALUE = BigDecimal.valueOf(100000);
+
+    @Autowired
     public PersonServiceImpl(
             PersonRepository repository
     ) {
@@ -48,26 +59,30 @@ public class PersonServiceImpl implements PersonService {
             case 10 -> IdentifierType.AP;
             case 11 -> IdentifierType.PF;
             case 14 -> IdentifierType.PJ;
-            default -> throw new IdentifierTypeNotImplementedException();
+            default ->
+                    throw new IdentifierTypeNotImplementedException("The provided identifier has no identifier type");
         };
     }
 
     private BigDecimal getMinInstallmentValueByIdentifierType(IdentifierType identifierType) {
         return switch (identifierType) {
-            case EU -> BigDecimal.valueOf(100);
-            case PF -> BigDecimal.valueOf(300);
-            case AP -> BigDecimal.valueOf(400);
-            case PJ -> BigDecimal.valueOf(1000);
-            default -> throw new IdentifierTypeNotImplementedException();
+            case EU -> EU_MIN_INSTALLMENT_VALUE;
+            case PF -> PF_MIN_INSTALLMENT_VALUE;
+            case AP -> AP_MIN_INSTALLMENT_VALUE;
+            case PJ -> PJ_MIN_INSTALLMENT_VALUE;
+            default ->
+                    throw new IdentifierTypeNotImplementedException("The provided identifier type has no min installment value");
         };
     }
 
     private BigDecimal getMaxLoanValueByIdentifierType(IdentifierType identifierType) {
         return switch (identifierType) {
-            case PF, EU -> BigDecimal.valueOf(10000);
-            case AP -> BigDecimal.valueOf(25000);
-            case PJ -> BigDecimal.valueOf(100000);
-            default -> throw new IdentifierTypeNotImplementedException();
+            case EU -> EU_MAX_LOAN_VALUE;
+            case PF -> PF_MAX_LOAN_VALUE;
+            case AP -> AP_MAX_LOAN_VALUE;
+            case PJ -> PJ_MAX_LOAN_VALUE;
+            default ->
+                    throw new IdentifierTypeNotImplementedException("The provided identifier type has no max loan value");
         };
     }
 
@@ -84,7 +99,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person update(UUID id, Person person) {
-        Person personToUpdate = this.findById(person.getId());
+        Person personToUpdate = this.findById(id);
 
         String personIdentifier = StringUtils.removeAllExceptNumber(person.getIdentifier());
         IdentifierType identifierType = this.getIdentifierTypeByIdentifier(personIdentifier);

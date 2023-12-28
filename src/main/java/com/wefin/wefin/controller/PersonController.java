@@ -3,9 +3,18 @@ package com.wefin.wefin.controller;
 import com.wefin.wefin.facade.PersonFacade;
 import com.wefin.wefin.facade.dto.person.PersonDTO;
 import com.wefin.wefin.facade.dto.person.PersonToCreateUpdateDTO;
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +25,7 @@ public class PersonController {
 
     private final PersonFacade facade;
 
+    @Autowired
     public PersonController(
             PersonFacade facade
     ) {
@@ -24,7 +34,7 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<PersonDTO> create(
-            @RequestBody PersonToCreateUpdateDTO dto
+            @RequestBody @Valid PersonToCreateUpdateDTO dto
     ) {
         PersonDTO response = facade.create(dto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -55,7 +65,7 @@ public class PersonController {
     @PatchMapping("/{id}")
     public ResponseEntity<PersonDTO> update(
             @PathVariable UUID id,
-            @RequestBody PersonToCreateUpdateDTO dto
+            @RequestBody @Valid PersonToCreateUpdateDTO dto
     ) {
         PersonDTO response = facade.update(id, dto);
         return new ResponseEntity<>(response, HttpStatus.OK);
