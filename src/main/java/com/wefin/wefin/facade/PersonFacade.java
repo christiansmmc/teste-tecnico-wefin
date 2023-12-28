@@ -28,13 +28,13 @@ public class PersonFacade {
 
     @Transactional
     public PersonDTO create(PersonToCreateUpdateDTO personToCreateUpdateDTO) {
-        Person person = mapper.INSTANCE.personToCreateUpdateDtoToPerson(personToCreateUpdateDTO);
-        return mapper.personToDto(service.create(person));
+        Person person = mapper.toEntity(personToCreateUpdateDTO);
+        return mapper.toDto(service.create(person));
     }
 
     @Transactional(readOnly = true)
     public List<PersonDTO> findAll() {
-        return service.findAll().stream().map(mapper.INSTANCE::personToDto).collect(Collectors.toList());
+        return service.findAll().stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
     @Transactional
@@ -44,12 +44,12 @@ public class PersonFacade {
 
     @Transactional
     public PersonDTO update(UUID id, PersonToCreateUpdateDTO personToCreateUpdateDTO) {
-        Person person = mapper.INSTANCE.personToCreateUpdateDtoToPerson(personToCreateUpdateDTO);
-        return mapper.personToDto(service.update(id, person));
+        Person person = mapper.toEntity(personToCreateUpdateDTO);
+        return mapper.toDto(service.update(id, person));
     }
 
     @Transactional(readOnly = true)
     public PersonDTO findById(UUID id) {
-        return mapper.personToDto(service.findById(id));
+        return mapper.toDto(service.findById(id));
     }
 }
