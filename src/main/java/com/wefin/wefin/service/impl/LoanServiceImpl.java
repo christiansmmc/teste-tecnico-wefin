@@ -13,7 +13,6 @@ import com.wefin.wefin.service.LoanService;
 import com.wefin.wefin.service.PaymentService;
 import com.wefin.wefin.service.PersonService;
 import com.wefin.wefin.util.IdentifierValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,7 +29,6 @@ public class LoanServiceImpl implements LoanService {
 
     private static final int MAX_ALLOWED_INSTALLMENTS = 24;
 
-    @Autowired
     public LoanServiceImpl(
             LoanRepository repository,
             PersonService personService,

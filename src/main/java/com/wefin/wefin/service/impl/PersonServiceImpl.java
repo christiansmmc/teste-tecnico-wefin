@@ -7,7 +7,6 @@ import com.wefin.wefin.exception.IdentifierTypeNotImplementedException;
 import com.wefin.wefin.repository.PersonRepository;
 import com.wefin.wefin.service.PersonService;
 import com.wefin.wefin.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,7 +27,6 @@ public class PersonServiceImpl implements PersonService {
     private static final BigDecimal AP_MAX_LOAN_VALUE = BigDecimal.valueOf(25000);
     private static final BigDecimal PJ_MAX_LOAN_VALUE = BigDecimal.valueOf(100000);
 
-    @Autowired
     public PersonServiceImpl(
             PersonRepository repository
     ) {

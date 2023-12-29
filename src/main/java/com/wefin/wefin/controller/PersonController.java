@@ -25,7 +25,6 @@ public class PersonController {
 
     private final PersonFacade facade;
 
-    @Autowired
     public PersonController(
             PersonFacade facade
     ) {

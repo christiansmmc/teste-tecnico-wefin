@@ -18,7 +18,6 @@ public class LoanController {
 
     private final LoanFacade facade;
 
-    @Autowired
     public LoanController(
             LoanFacade facade
     ) {
