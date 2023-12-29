@@ -176,3 +176,7 @@ relevância.
     - Para simplificar o desenvolvimento, reduzindo a verbosidade do código e automatizando tarefas comuns
 - Spring Boot starter validation
     - Para simplificar a validação dos RequestBody
+
+## Observações
+
+Acredito que seria melhor ser feita a validação de numero de documento da pessoa na própria rota de criar a pessoa e não apenas no momento de criar o empréstimo.
