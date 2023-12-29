@@ -72,16 +72,20 @@ public class LoanServiceImpl implements LoanService {
     ) {
         switch (identifierType) {
             case PF -> {
-                if (!IdentifierValidator.isCpf(identifier)) throw new InvalidIdentifierException();
+                if (!IdentifierValidator.isCpf(identifier))
+                    throw new InvalidIdentifierException("Invalid CPF number");
             }
             case PJ -> {
-                if (!IdentifierValidator.isCnpj(identifier)) throw new InvalidIdentifierException();
+                if (!IdentifierValidator.isCnpj(identifier))
+                    throw new InvalidIdentifierException("Invalid CNPJ number");
             }
             case EU -> {
-                if (!IdentifierValidator.isStudent(identifier)) throw new InvalidIdentifierException();
+                if (!IdentifierValidator.isStudent(identifier))
+                    throw new InvalidIdentifierException("Invalid Student number");
             }
             case AP -> {
-                if (!IdentifierValidator.isRetiree(identifier)) throw new InvalidIdentifierException();
+                if (!IdentifierValidator.isRetiree(identifier))
+                    throw new InvalidIdentifierException("Invalid Retiree number");
             }
         }
     }
@@ -96,10 +100,10 @@ public class LoanServiceImpl implements LoanService {
 
         if (loanValue.compareTo(personMaxLoanValue) > 0)
             throw new InvalidLoanValueException("Loan value exceeds maximum allowed value for the person.");
-        if (personMinInstallmentValue.compareTo(installmentValue) > 0)
-            throw new InvalidInstallmentNumberException("Installment value is lower than minimum allowed value for the person person");
         if (loanInstallmentsTotal > MAX_ALLOWED_INSTALLMENTS)
             throw new InvalidInstallmentNumberException("Installment number is higher than 24 installments");
+        if (personMinInstallmentValue.compareTo(installmentValue) > 0)
+            throw new InvalidInstallmentNumberException("Installment value is lower than minimum allowed value for the person person");
     }
 
     @Override
