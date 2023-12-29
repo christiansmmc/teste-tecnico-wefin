@@ -1,8 +1,8 @@
 # Teste técnico WeFin
 
 - [Contexto do teste técnico](#contexto-do-teste-técnico)
-- [Stacks Utilizadas](#stacks-utilizada)
 - [Documentação da API](#documentação-da-api)
+- [Stacks Utilizadas](#stacks-utilizada)
 - [Observações](#observações)
   
 ## Contexto do teste técnico
